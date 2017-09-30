@@ -9,6 +9,8 @@ using BruTile.Predefined;
 using WinFormSamples.Properties;
 
 using GeometryTransform = GeoAPI.CoordinateSystems.Transformations.GeometryTransform;
+using BruTile.Samples.Common;
+using System.Drawing;
 
 namespace WinFormSamples
 {
@@ -20,7 +22,7 @@ namespace WinFormSamples
         private bool movingUp = true;
         private bool movingLeft = true;
         GeoAPI.Geometries.Coordinate position;
-
+        VectorLayer pushPinLayer;
         public FormMovingObjectOverTileLayer()
         {
    
@@ -33,37 +35,51 @@ namespace WinFormSamples
         {
 
             //Lisbon...
-            var mathTransform = LayerTools.Wgs84toGoogleMercator.MathTransform;
-            GeoAPI.Geometries.Envelope geom = GeometryTransform.TransformBox(
-                new Envelope(-9.205626, -9.123736, 38.690993, 38.740837),
-                mathTransform);
-
+            //var mathTransform = LayerTools.Wgs84toGoogleMercator.MathTransform;
+            //GeoAPI.Geometries.Envelope geom = GeometryTransform.TransformBox(
+            //    new Envelope(114.205626, 115.123736, 36.690993, 38.740837),
+            //    mathTransform);
+            GeoAPI.Geometries.Envelope geom=new GeoAPI.Geometries.Envelope(134.6, 137.0, 33.68, 35.12);
             //Google Background
-            TileAsyncLayer layer2 = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap), "TileLayer - OSM");
+            //TileAsyncLayer layer2 = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.OpenStreetMap), "TileLayer - OSM");
+            TileAsyncLayer tiandituLayer = new TileAsyncLayer(LantMaterietTopowebbTileSourceTest.Create(), "tianditu");
 
+            this.mapBox1.Map.BackgroundLayer.Add(tiandituLayer);
+            //var gf = new GeometryFactory(new PrecisionModel(), 4490);
 
-            this.mapBox1.Map.BackgroundLayer.Add(layer2);
-            var gf = new GeometryFactory(new PrecisionModel(), 3857);
-
-            //Adds a static layer
-            var staticLayer = new VectorLayer("Fixed Marker");
-            //position = geom.GetCentroid();
-            var aux = new List<IGeometry>();
-            aux.Add(gf.CreatePoint(geom.Centre));
-            staticLayer.Style.Symbol = Resources.PumpSmall;
-            var geoProviderFixed = new SharpMap.Data.Providers.GeometryProvider(aux);
-            staticLayer.DataSource = geoProviderFixed;
-            this.mapBox1.Map.Layers.Add(staticLayer);
+            ////Adds a static layer
+            //var staticLayer = new VectorLayer("Fixed Marker");
+            ////position = geom.GetCentroid();
+            //var aux = new List<IGeometry>();
+            //aux.Add(gf.CreatePoint(geom.Centre));
+            //staticLayer.Style.Symbol = Resources.PumpSmall;
+            //var geoProviderFixed = new SharpMap.Data.Providers.GeometryProvider(aux);
+            //staticLayer.DataSource = geoProviderFixed;
+            //this.mapBox1.Map.Layers.Add(staticLayer);
 
             
             //Adds a moving variable layer
-            VectorLayer pushPinLayer = new VectorLayer("PushPins");
-            position = geom.Centre;
-            geos.Add(gf.CreatePoint(position));
-            pushPinLayer.Style.Symbol = Resources.OutfallSmall;
-            var geoProvider = new SharpMap.Data.Providers.GeometryProvider(geos);
-            pushPinLayer.DataSource = geoProvider;
-            this.mapBox1.Map.VariableLayers.Add(pushPinLayer);
+            //pushPinLayer = new VectorLayer("PushPins");
+            //position = new GeoAPI.Geometries.Coordinate(134.77, 33.77);
+            //geos.Add(gf.CreatePoint(position));
+            //pushPinLayer.Style.Symbol = Resources.car;
+            //var geoProvider = new SharpMap.Data.Providers.GeometryProvider(geos);
+            //pushPinLayer.DataSource = geoProvider;
+            //this.mapBox1.Map.VariableLayers.Add(pushPinLayer);
+
+            //划线
+           
+            //var lineLayer = new VectorLayer("line");
+            //var lines = new List<IGeometry>();
+            //var l = gf.CreateLineString(
+            // new[]
+            //     {   new GeoAPI.Geometries.Coordinate(134.77, 33.77),
+            //            new GeoAPI.Geometries.Coordinate(134.82, 35.10), new GeoAPI.Geometries.Coordinate(135.82, 34.90)});
+            //lines.Add(l);
+            //lineLayer.Style.Line= new Pen(Color.Black, 3);
+            //var geoLineProvider = new SharpMap.Data.Providers.GeometryProvider(lines);
+            //lineLayer.DataSource = geoLineProvider;
+            //this.mapBox1.Map.VariableLayers.Add(lineLayer);
 
             this.mapBox1.Map.ZoomToBox(geom);
             this.mapBox1.Refresh();
@@ -74,18 +90,18 @@ namespace WinFormSamples
         {
             double dx, dy;
             if (movingLeft)
-                dx = -100;
+                dx = -0.01;
             else
-                dx = 100;
+                dx = 0.01;
 
             if (movingUp)
-                dy = 100;
+                dy = 0.01;
             else
-                dy = -100;
+                dy = -0.01;
 
             position.X = position.X + dx;
             position.Y = position.Y + dy;
-
+           
             if (position.X < this.mapBox1.Map.Envelope.MinX)
                 movingLeft = false;
             else if (position.X > this.mapBox1.Map.Envelope.MaxX)
@@ -95,7 +111,7 @@ namespace WinFormSamples
                 movingUp = true;
             else if (position.Y > this.mapBox1.Map.Envelope.MaxY)
                 movingUp = false;
-
+            pushPinLayer.Style.SymbolRotation = 33.2222f;
             VariableLayerCollection.TouchTimer();
             //this.mapBox1.Refresh();
 

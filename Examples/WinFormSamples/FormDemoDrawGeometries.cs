@@ -15,6 +15,11 @@ using BruTile.Predefined;
 using SharpMap.Data.Providers;
 
 using GeometryTransform = GeoAPI.CoordinateSystems.Transformations.GeometryTransform;
+using BruTile.Samples.Common;
+using System.IO;
+using BruTile.Wmts;
+using BruTile;
+using System.Linq;
 
 namespace WinFormSamples
 {
@@ -38,10 +43,29 @@ namespace WinFormSamples
 
             //this.mapBox1.Map = ShapefileSample.InitializeMap(0);
             //Google Background
-            TileAsyncLayer bingLayer = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.BingRoadsStaging), "TileLayer - Bing");
-            this.mapBox1.Map.BackgroundLayer.Add(bingLayer);
+            //TileAsyncLayer bingLayer = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.BingRoadsStaging), "TileLayer - Bing");
+            //this.mapBox1.Map.BackgroundLayer.Add(bingLayer);
+            //TileAsyncLayer bingLayer = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.tianditu), "TileLayer - Bing");
+            ////HttpTileSource hts=    new HttpTileSource(new GlobalSphericalMercator(4, 18),
+            ////           "http://t1.tianditu.cn/DataServer?T=img_c&X={x}&Y={y}&L={z}",
+            ////           name: "", persistentCache: null, tileFetcher: null);
+            ////TileAsyncLayer bingLayer = new TileAsyncLayer(hts, "TileLayer - Bing");
+            //this.mapBox1.Map.BackgroundLayer.Add(bingLayer);
 
-
+            //TileAsyncLayer ArcgisLayer = new TileAsyncLayer(KnownTileSources.Create(KnownTileSource.EsriWorldDarkGrayBase), "TileLayer - esri");
+            //this.mapBox1.Map.BackgroundLayer.Add(ArcgisLayer);
+            //TileAsyncLayer tiandituLayer = new TileAsyncLayer(TDTTrans.Create2(), "TileLayer - tianditu");
+            //this.mapBox1.Map.BackgroundLayer.Add(tiandituLayer);
+            //TileAsyncLayer tiandituLayer = new TileAsyncLayer(LantMaterietTopowebbTileSourceTest.Create(), "tianditu");
+            using (var stream = System.IO.File.OpenRead(Path.Combine("Resources", "tiandituSD.xml")))
+            {
+                //ITileSource tileSource = WmtsParser.Parse(stream).First();
+                TileAsyncLayer tiandituLayer = new TileAsyncLayer(WmtsParser.Parse(stream).First(), "tianditu");
+                this.mapBox1.Map.BackgroundLayer.Add(tiandituLayer);
+                //map.ZoomToBox(tiandituLayer.Envelope);
+                //this.mapBox1.Map.ZoomToBox(new GeoAPI.Geometries.Envelope(134.6, 138.0, 31.68, 35.12));
+            }
+            //this.mapBox1.Map.BackgroundLayer.Add(tiandituLayer);
             SharpMap.Layers.VectorLayer vl = new VectorLayer("My Geometries");
             geoProvider = new SharpMap.Data.Providers.GeometryProvider(new List<IGeometry>());
             vl.DataSource = geoProvider;
@@ -51,8 +75,10 @@ namespace WinFormSamples
             var geom = GeometryTransform.TransformBox(
                 new Envelope(-9.205626, -9.123736, 38.690993, 38.740837),
                 mathTransform);
+            this.mapBox1.Map.ZoomToExtents();
+            //this.mapBox1.Map.ZoomToBox(new GeoAPI.Geometries.Envelope(126.6, 143.0, 28.68, 37.12));
 
-            this.mapBox1.Map.ZoomToExtents(); //(geom);
+            //this.mapBox1.Map.ZoomToBox(geom); //(geom);
             this.mapBox1.Refresh();
 
             this.mapBox1.GeometryDefined += new SharpMap.Forms.MapBox.GeometryDefinedHandler(mapBox1_GeometryDefined);

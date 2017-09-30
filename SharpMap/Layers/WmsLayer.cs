@@ -140,7 +140,7 @@ namespace SharpMap.Layers
         /// <param name="credentials"></param>
         public WmsLayer(string layername, string url, TimeSpan cachetime, IWebProxy proxy,
             ICredentials credentials)
-            :this(layername, GetClient(url, proxy, credentials, cachetime))
+            : this(layername, GetClient(url, proxy, credentials, cachetime))
         {
         }
 
@@ -210,7 +210,7 @@ namespace SharpMap.Layers
             for (int i = 0; i < _wmsClient.GetMapRequests.Length; i++)
             {
                 _wmsClient.GetMapRequests[i].OnlineResource = url;
-            }        
+            }
         }
 
 
@@ -616,7 +616,7 @@ namespace SharpMap.Layers
                 if (Logger.IsDebugEnabled)
                     Logger.Debug("Beginning request");
 
-                using(var myWebResponse = (HttpWebResponse)myWebRequest.GetResponse())
+                using (var myWebResponse = (HttpWebResponse)myWebRequest.GetResponse())
                 {
                     if (Logger.IsDebugEnabled)
                         Logger.Debug("Got response");
@@ -628,7 +628,7 @@ namespace SharpMap.Layers
                             if (Logger.IsDebugEnabled)
                                 Logger.Debug("Reading image from stream");
 
-                            var cLength = (int) myWebResponse.ContentLength;
+                            var cLength = (int)myWebResponse.ContentLength;
 
                             if (Logger.IsDebugEnabled)
                                 Logger.Debug("Content-Length: " + cLength);
@@ -667,7 +667,7 @@ namespace SharpMap.Layers
                                             }
 
                                             if (Logger.IsDebugEnabled)
-                                                Logger.Debug("No data to read. Have received: " + 
+                                                Logger.Debug("No data to read. Have received: " +
                                                              numRead + " of " + cLength);
 
 

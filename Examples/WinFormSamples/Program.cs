@@ -29,7 +29,7 @@ namespace WinFormSamples
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DlgSamplesMenu());
+            Application.Run(new FormDemoDrawGeometries());
         }
     }
 

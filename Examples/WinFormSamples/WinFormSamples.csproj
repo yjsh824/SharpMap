@@ -14,7 +14,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <NuGetPackageImportStamp>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -58,16 +58,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BruTile, Version=0.18.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BruTile.0.18.1\lib\net40\BruTile.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BruTile可用\BruTile\BruTile\bin\Debug\BruTile.dll</HintPath>
     </Reference>
     <Reference Include="BruTile.Desktop, Version=0.18.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\BruTile.Desktop.0.18.1\lib\net40\BruTile.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BruTile.MbTiles, Version=0.18.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BruTile.Desktop.0.18.1\lib\net40\BruTile.MbTiles.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BruTile.Samples.Common, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BruTile可用\BruTile\Samples\BruTile.Samples.Common\bin\Debug\BruTile.Samples.Common.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
@@ -199,6 +199,12 @@
     </Compile>
     <Compile Include="LayerTools.cs" />
     <Compile Include="MagnifierTool.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Samples\CreateTilesSample.cs" />
     <Compile Include="Samples\GdalSample.cs" />
     <Compile Include="Samples\GdiImageLayerSample.cs" />
@@ -207,7 +213,9 @@
     <Compile Include="Samples\HeatLayerSample.cs" />
     <Compile Include="Samples\OracleSample.cs" />
     <Compile Include="SampleTool.cs" />
+    <Compile Include="SharpMapHelper.cs" />
     <Compile Include="SharpMapTileSource.cs" />
+    <Content Include="Resources\car.png" />
     <EmbeddedResource Include="Magnifier.cur" />
     <None Include="GeoData\World\shp_textonpath\DeMo_Quan5.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -369,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMovingObjectOverTileLayer.resx">
       <DependentUpon>FormMovingObjectOverTileLayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
